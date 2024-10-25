@@ -10,6 +10,7 @@ moduleName=$1
 ./sub/createFiles.sh $moduleName
 ./sub/createView.sh $moduleName
 ./sub/createScreen.sh $moduleName
+./sub/createViewModel.sh $moduleName
 ./sub/createViewSupport.sh $moduleName
 
 echo "Module created successfully!"

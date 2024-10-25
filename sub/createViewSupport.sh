@@ -48,4 +48,4 @@ echo "}" >> "$filePath2"
 #FILE 3 STATE
 echo "package $package.$presenationPath.$lowername.viewmodel" > "$filePath3"
 echo "" >> "$filePath2"
-echo "data class "$filename"ViewState(val isPopup:Boolean= false)" >> "$filePath3"
+echo "data class "$filename"ViewState(val isLoading:Boolean= false)" >> "$filePath3"
