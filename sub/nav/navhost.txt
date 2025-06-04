@@ -1,0 +1,12 @@
+
+import androidx.navigation.NavHostController
+import androidx.compose.ui.platform.LocalFocusManager
+
+//fun NavHostController.openDetails(productId: String) {
+//   navigate(Screen.Home.route+ "/" + productId)
+//}
+
+fun NavHostController.back(focusManager: FocusManager) {
+    focusManager.clearFocus()
+    popBackStack()
+}

@@ -1,0 +1,25 @@
+
+
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
+object NavigationParams {
+    object DetailsView {
+        var TRANSACTION_ID = "transactionID"
+    }
+}
+sealed class Screen(val route: String) {
+    data object Login : Screen("login_screen")
+    data object Home : Screen("home_screen")
+    data object ForgotPassword : Screen("forgot_password_page")
+    data object DeveloperPage : Screen("dev_screen")
+    data object DetailsView : Screen("details_screen") {
+        var routeParams: String = route + "/{${NavigationParams.DetailsView.TRANSACTION_ID}}"
+        val arguments: List<NamedNavArgument> =
+            listOf(navArgument(name = NavigationParams.DetailsView.TRANSACTION_ID) {
+                type = NavType.StringType
+            })
+    }
+}
+

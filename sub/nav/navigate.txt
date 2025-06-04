@@ -1,0 +1,63 @@
+
+
+import android.content.Context
+import android.content.Intent
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+interface ResponseHandler {}
+
+@Composable
+fun NavigationCoordinator(viewModel: NavigationViewModel = hiltViewModel()) {
+    
+    val navController = rememberNavController()
+    val focusManager = LocalFocusManager.current
+    var responseHandler: ResponseHandler? = null
+    val context = LocalContext.current
+
+    if (viewModel.state.value.isLoading) {
+        LoadingScreen()
+    } else {
+        NavHost(
+            modifier = Modifier.onFocusChanged {
+
+                    val backStack = navController.backQueue
+                    backStack.forEach { entry ->
+                        println("Route: ${entry.destination.route}")
+                 }
+               println("Route Focus ${focusManager}")
+            }, navController = navController, startDestination = viewModel.state.value.initialRoute
+        ) {
+            composable(
+                route = Screen.Login.route
+            ) {
+                LoginView(navDelegate = object : LoginNavigation {
+                    override fun openDeveloperPage() {
+                        navController.navigate(Screen.DeveloperPage.route)
+                    }
+
+                    override fun onLoginSuccess() {
+                        viewModel.onAction(NavigationViewAction.OnLogin)
+                    }
+
+                    override fun openForgotPasswordPage() {
+                        navController.navigate(Screen.ForgotPasswordPage.route)
+                    }
+
+                }
+
+                )
+            }
+        
+            }
+    }
+}
