@@ -24,9 +24,10 @@ presenationPath=$(cat config | grep PRESENTATIONPATH | awk '{print $2}')
 
 fullPath="./../$rootPath/$packagePath/$presenationPath"
 
-echo $rootPath 
-
-echo $presenationPath 
+currentPath=$(pwd)
+echo $currentPath
+echo $rootPath
+echo $fullPath 
 
 
 # make directory to full path if not exst
@@ -56,3 +57,35 @@ touch "$lowername"/viewmodel/"$filename"ViewAction.kt
 touch "$lowername"/viewmodel/"$filename"ViewEvent.kt
 touch "$lowername"/viewmodel/"$filename"ViewState.kt
 
+
+#check the folder core
+if [[ ! -d core ]]; then
+    mkdir core
+fi 
+
+#check the folder  core/views
+if [[ ! -d core/views ]]; then
+    mkdir core/views
+fi 
+#check a file named LoaderBox.kt inside core/views
+if [[ ! -f core/views/LoaderBox.kt ]]; then
+    echo  $(pwd)
+    touch core/views/LoaderBox.kt
+    echo "package $package.$presenationPath.core.views" > core/views/LoaderBox.kt
+    #copy contents of loader.txt to LoaderBox.kt
+    cat "$currentPath"/sub/loader.txt >> core/views/LoaderBox.kt
+fi
+
+#check the folder  core/utils
+if [[ ! -d core/utils ]]; then
+    mkdir core/utils
+fi 
+
+#check a file named LoaderBox.kt inside core/utils
+if [[ ! -f core/utils/ObserveAsEvents.kt ]]; then
+    echo  $(pwd)
+    touch core/utils/ObserveAsEvents.kt
+    echo "package $package.$presenationPath.core.utils" > core/utils/ObserveAsEvents.kt
+    #copy contents of loader.txt to LoaderBox.kt
+    cat "$currentPath"/sub/observer.txt >> core/utils/ObserveAsEvents.kt
+fi
